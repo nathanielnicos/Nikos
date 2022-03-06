@@ -1,0 +1,41 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/dashboard">
+
+        <SeekBarPreference
+            app:key="@string/dashboard"
+            app:title="Number of Dashboard Post"
+            app:defaultValue="4"
+            app:min="4"
+            app:showSeekBarValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/map">
+
+        <SwitchPreferenceCompat
+            app:key="@string/map"
+            app:title="Show Map" />
+
+        <SwitchPreferenceCompat
+            app:dependency="@string/map"
+            app:key="location"
+            app:summaryOff="Off"
+            app:summaryOn="On"
+            app:title="Share Location" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/wallet">
+
+        <ListPreference
+            app:defaultValue="long_press"
+            app:entries="@array/wallet_entries"
+            app:entryValues="@array/reply_values"
+            app:key="@string/wallet"
+            app:title="Edit and Delete Features"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

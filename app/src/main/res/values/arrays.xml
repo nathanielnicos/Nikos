@@ -1,0 +1,15 @@
+<resources>
+    <!-- Wallet Preference -->
+    <string-array name="wallet_entries">
+        <item>Long press</item>
+        <item>Icon button</item>
+        <item>Both</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>long_press</item>
+        <item>icon_button</item>
+        <item>both</item>
+    </string-array>
+
+</resources>

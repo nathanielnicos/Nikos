@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "328118667550",
+    "firebase_url": "https://nikos-f05f9-default-rtdb.firebaseio.com",
+    "project_id": "nikos-f05f9",
+    "storage_bucket": "nikos-f05f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328118667550:android:b635da6f69c1972d93610f",
+        "android_client_info": {
+          "package_name": "id.nns.nikos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328118667550-adscl2he26b0fnm9dfffnv52unrau65n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.nns.nikos",
+            "certificate_hash": "b056688f1fbc01440be1e27292394fedd409a6c7"
+          }
+        },
+        {
+          "client_id": "328118667550-co7dglp36t79pe15h18hdeqjsabl5537.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPWoNe8cqT-fnk0R2wX_yacofjST7O4cM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328118667550-co7dglp36t79pe15h18hdeqjsabl5537.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
