@@ -65,6 +65,7 @@
                 android:layout_marginStart="16dp" />
 
             <TextView
+                android:id="@+id/tv_see_more_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/see_more"
@@ -101,6 +102,7 @@
                 app:layout_constraintTop_toBottomOf="@id/view_pager" />
 
             <TextView
+                android:id="@+id/tv_see_more_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/see_more"
@@ -122,6 +124,7 @@
                 android:layout_marginTop="8dp" />
 
             <TextView
+                android:id="@+id/tv_end_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/end_of_list"

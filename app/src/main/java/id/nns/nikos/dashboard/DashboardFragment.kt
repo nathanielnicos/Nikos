@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import id.nns.nikos.R
 import id.nns.nikos.databinding.FragmentDashboardBinding
 import id.nns.nikos.new_post.PostActivity
 import id.nns.nikos.profile.ProfileActivity
@@ -70,6 +71,14 @@ class DashboardFragment : Fragment() {
             }
         }
 
+        binding.tvSeeMoreTop.setOnClickListener {
+            Toast.makeText(activity, "Change the number of dashboard post at settings!", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.tvSeeMoreBottom.setOnClickListener {
+            Toast.makeText(activity, "Change the number of dashboard post at settings!", Toast.LENGTH_SHORT).show()
+        }
+
         observe()
     }
 
@@ -79,7 +88,14 @@ class DashboardFragment : Fragment() {
             recentAdapter.setPays(pays)
         }
 
+        viewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
+            if (isEmpty) {
+                binding.tvEndList.text = getString(R.string.empty_list)
+            }
+        }
+
         viewModel.error.observe(viewLifecycleOwner) { error ->
+            binding.pbRecent.visibility = View.GONE
             Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
         }
     }
