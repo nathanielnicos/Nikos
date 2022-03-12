@@ -6,7 +6,7 @@
             app:key="@string/dashboard"
             app:title="Number of Dashboard Post"
             app:defaultValue="4"
-            app:min="1"
+            app:min="0"
             app:showSeekBarValue="true" />
 
     </PreferenceCategory>
