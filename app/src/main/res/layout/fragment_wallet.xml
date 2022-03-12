@@ -12,6 +12,7 @@
         app:layout_constraintTop_toBottomOf="@id/cl_top_wallet">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_wallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_wallet" />
@@ -42,6 +43,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:id="@+id/tv_total_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
@@ -55,6 +57,7 @@
             tools:text="Rp100.000,00" />
 
         <ImageButton
+            android:id="@+id/ib_add_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_add"
@@ -68,6 +71,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_edit_wallet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/pale_yellow"
@@ -104,6 +108,7 @@
             tools:ignore="Autofill,LabelFor" />
 
         <ImageButton
+            android:id="@+id/ib_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_save"
@@ -117,6 +122,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
+        android:id="@+id/pb_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

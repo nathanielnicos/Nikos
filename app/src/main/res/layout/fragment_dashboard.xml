@@ -30,6 +30,7 @@
         app:layout_constraintStart_toEndOf="@id/circle_image_view" />
 
     <ImageButton
+        android:id="@+id/ib_add_pay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_add"
@@ -139,6 +140,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
+        android:id="@+id/pb_recent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"

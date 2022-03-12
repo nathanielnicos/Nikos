@@ -19,6 +19,7 @@
         android:adjustViewBounds="true" />
 
     <ImageButton
+        android:id="@+id/ib_add_photo"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/ic_photo"
@@ -49,6 +50,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
+                    android:id="@+id/ib_save_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_save"
@@ -99,6 +101,7 @@
                     app:layout_constraintBottom_toBottomOf="parent" />
 
                 <EditText
+                    android:id="@+id/et_amount_post"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -118,6 +121,7 @@
     </ScrollView>
 
     <ProgressBar
+        android:id="@+id/pb_post"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
