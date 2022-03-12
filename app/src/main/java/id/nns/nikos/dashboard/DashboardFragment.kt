@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.nns.nikos.R
 import id.nns.nikos.databinding.FragmentDashboardBinding
 import id.nns.nikos.new_post.PostActivity
 import id.nns.nikos.profile.ProfileActivity
@@ -86,12 +85,6 @@ class DashboardFragment : Fragment() {
         viewModel.pays.observe(viewLifecycleOwner) { pays ->
             binding.pbRecent.visibility = View.GONE
             recentAdapter.setPays(pays)
-        }
-
-        viewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
-            if (isEmpty) {
-                binding.tvEndList.text = getString(R.string.empty_list)
-            }
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
