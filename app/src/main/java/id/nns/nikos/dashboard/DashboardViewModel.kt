@@ -23,6 +23,7 @@ class DashboardViewModel : ViewModel() {
 
     fun getPays(count: Int) {
         val arrayList = ArrayList<Pay>()
+        val sampleArrayList = ArrayList<Pay>()
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -30,12 +31,29 @@ class DashboardViewModel : ViewModel() {
 
                 for (item in snapshot.children) {
                     val value = item.getValue(Pay::class.java)
-                    if (value != null && arrayList.size < count) {
+                    if (value != null) {
                         arrayList.add(0, value)
                     }
-                    _pays.value = arrayList
+                }
+
+                for (i in 0 until arrayList.size - 1) {
+                    if (i < count) {
+                        sampleArrayList.add(arrayList[i])
+                        _pays.value = sampleArrayList
+                    }
                 }
             }
+
+            // Example: count = 3
+            // Start
+            // i = 0
+            // + arrayList[0]
+            // i = 1
+            // + arrayList[1]
+            // i = 2
+            // + arrayList[2]
+            // i = 3
+            // Stop
 
             override fun onCancelled(error: DatabaseError) {
                 _error.value = error.message
