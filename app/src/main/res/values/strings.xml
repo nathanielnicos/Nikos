@@ -17,4 +17,8 @@
     <string name="rp">Rp</string>
     <string name="end_of_list">End of list was reached.</string>
     <string name="dashboard">Dashboard</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="location">Location:</string>
+    <string name="update">UPDATE</string>
 </resources>
