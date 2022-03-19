@@ -23,37 +23,20 @@ class DashboardViewModel : ViewModel() {
 
     fun getPays(count: Int) {
         val arrayList = ArrayList<Pay>()
-        val sampleArrayList = ArrayList<Pay>()
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 arrayList.clear()
 
-                for (item in snapshot.children) {
-                    val value = item.getValue(Pay::class.java)
+                snapshot.children.reversed().take(count).forEach { data ->
+                    val value = data.getValue(Pay::class.java)
                     if (value != null) {
-                        arrayList.add(0, value)
+                        arrayList.add(value)
                     }
                 }
 
-                for (i in 0 until arrayList.size - 1) {
-                    if (i < count) {
-                        sampleArrayList.add(arrayList[i])
-                        _pays.value = sampleArrayList
-                    }
-                }
+                _pays.value = arrayList
             }
-
-            // Example: count = 3
-            // Start
-            // i = 0
-            // + arrayList[0]
-            // i = 1
-            // + arrayList[1]
-            // i = 2
-            // + arrayList[2]
-            // i = 3
-            // Stop
 
             override fun onCancelled(error: DatabaseError) {
                 _error.value = error.message
@@ -61,8 +44,8 @@ class DashboardViewModel : ViewModel() {
         })
     }
 
-    fun updateFavoriteState(id: String, favorite: Boolean) {
-        dbRef.child("$id/favorite").setValue(!favorite)
+    fun updateFavoriteState(id: String, isFavorite: Boolean) {
+        dbRef.child("$id/favorite").setValue(isFavorite)
             .addOnFailureListener {
                 _error.value = it.message
             }

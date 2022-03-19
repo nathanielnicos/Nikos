@@ -40,6 +40,7 @@ class DashboardFragment : Fragment() {
             settingsPref.getPostNumber()
         )
 
+        // Favorite Adapter
         favoriteAdapter = FavoriteAdapter()
         favoriteAdapter.setImages(
             arrayListOf(
@@ -52,9 +53,11 @@ class DashboardFragment : Fragment() {
         )
         binding.viewPager.adapter = favoriteAdapter
 
-        recentAdapter = RecentAdapter { id, favorite ->
-            viewModel.updateFavoriteState(id, favorite)
+        // Recent Adapter
+        recentAdapter = RecentAdapter { id, isFavorite ->
+            viewModel.updateFavoriteState(id, isFavorite)
         }
+
         binding.rvRecent.adapter = recentAdapter
         binding.rvRecent.layoutManager = LinearLayoutManager(activity)
 
@@ -84,7 +87,7 @@ class DashboardFragment : Fragment() {
     private fun observe() {
         viewModel.pays.observe(viewLifecycleOwner) { pays ->
             binding.pbRecent.visibility = View.GONE
-            recentAdapter.setPays(pays)
+            recentAdapter.setData(pays)
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->

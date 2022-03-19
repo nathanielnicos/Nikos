@@ -21,11 +21,11 @@ class PayDiffCallback(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].product == newList[newItemPosition].product &&
-                oldList[oldItemPosition].price == newList[newItemPosition].price &&
+        return oldList[oldItemPosition].detail == newList[newItemPosition].detail &&
                 oldList[oldItemPosition].favorite == newList[newItemPosition].favorite &&
-                oldList[oldItemPosition].detail == newList[newItemPosition].detail &&
                 oldList[oldItemPosition].imgUrl == newList[newItemPosition].imgUrl &&
+                oldList[oldItemPosition].price == newList[newItemPosition].price &&
+                oldList[oldItemPosition].product == newList[newItemPosition].product &&
                 oldList[oldItemPosition].timestamp == newList[newItemPosition].timestamp
     }
 

@@ -14,23 +14,24 @@ import id.nns.nikos.utils.FavoriteState.favoriteState
 import id.nns.nikos.utils.FormattedPrice.getPrice
 import id.nns.nikos.utils.PayDiffCallback
 
-class RecentAdapter(private val onHeartClicked: (String, Boolean) -> Unit) :
-    RecyclerView.Adapter<RecentAdapter.DashboardViewHolder>() {
+class RecentAdapter(
+    private val action: (id: String, isFavorite: Boolean) -> Unit
+) : RecyclerView.Adapter<RecentAdapter.RecentViewHolder>() {
 
+    private var oldPayList = ArrayList<Pay>()
     private lateinit var binding: ItemRecentBinding
-    private var pays = ArrayList<Pay>()
 
-    fun setPays(newPays: ArrayList<Pay>) {
-        val diffCallback = PayDiffCallback(pays, newPays)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
+    fun setData(newPayList: ArrayList<Pay>) {
+        val payDiffCallback = PayDiffCallback(oldPayList, newPayList)
+        val diffResult = DiffUtil.calculateDiff(payDiffCallback)
 
-        pays.clear()
-        pays.addAll(newPays)
+        oldPayList.clear()
+        oldPayList.addAll(newPayList)
 
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class DashboardViewHolder(private val vhBinding: ItemRecentBinding) :
+    inner class RecentViewHolder(private val vhBinding: ItemRecentBinding) :
         RecyclerView.ViewHolder(vhBinding.root) {
 
         fun bind(pay: Pay) {
@@ -46,7 +47,7 @@ class RecentAdapter(private val onHeartClicked: (String, Boolean) -> Unit) :
             )
 
             binding.ibFavorite.setOnClickListener {
-                onHeartClicked(pay.id, pay.favorite)
+                action(pay.id, !pay.favorite)
             }
 
             itemView.setOnClickListener {
@@ -60,17 +61,17 @@ class RecentAdapter(private val onHeartClicked: (String, Boolean) -> Unit) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecentAdapter.DashboardViewHolder {
+    ): RecentAdapter.RecentViewHolder {
         binding = ItemRecentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DashboardViewHolder(binding)
+        return RecentViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecentAdapter.DashboardViewHolder, position: Int) {
-        holder.bind(pays[position])
+    override fun onBindViewHolder(holder: RecentAdapter.RecentViewHolder, position: Int) {
+        holder.bind(oldPayList[position])
     }
 
     override fun getItemCount(): Int {
-        return pays.size
+        return oldPayList.size
     }
 
 }
