@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import id.nns.nikos.data.Pay
 import id.nns.nikos.databinding.ActivityDetailBinding
 import id.nns.nikos.utils.FormattedDateTime.convertDate
 import id.nns.nikos.utils.FormattedDateTime.convertTime
@@ -26,10 +25,42 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
-        val pay = intent.getParcelableExtra<Pay>(KEY_DETAIL)
+        val id = intent.getStringExtra(KEY_DETAIL)
 
-        if (pay != null) {
+        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
+        if (id != null) {
+            viewModel.getPay(id)
+            setUI(id)
+        }
+
+        observe()
+    }
+
+    private fun setUI(id: String) {
+        binding.ibEditDetail.setOnClickListener {
+            binding.tvNameDetail.visibility = View.INVISIBLE
+            binding.tvDetailDetail.visibility = View.INVISIBLE
+            binding.ibEditDetail.visibility = View.INVISIBLE
+            binding.etEditProduct.visibility = View.VISIBLE
+            binding.etEditDetail.visibility = View.VISIBLE
+            binding.ibSaveDetail.visibility = View.VISIBLE
+
+            binding.etEditProduct.setText(binding.tvNameDetail.text.toString())
+            binding.etEditDetail.setText(binding.tvDetailDetail.text.toString())
+        }
+
+        binding.ibSaveDetail.setOnClickListener {
+            val newName = binding.etEditProduct.text.toString().trim()
+            val newDetail = binding.etEditDetail.text.toString().trim()
+
+            if (newName.isNotBlank() && newDetail.isNotBlank()) {
+                viewModel.savePay(id, newName, newDetail)
+            }
+        }
+    }
+
+    private fun observe() {
+        viewModel.product.observe(this) { pay ->
             Glide.with(this)
                 .load(pay.imgUrl)
                 .into(binding.ivImageDetail)
@@ -39,33 +70,8 @@ class DetailActivity : AppCompatActivity() {
             binding.tvDateDetail.text = convertDate(pay.timestamp)
             binding.tvTimeDetail.text = convertTime(pay.timestamp)
             binding.tvPriceDetail.text = getPrice(pay.price)
-
-            binding.ibEditDetail.setOnClickListener {
-                binding.tvNameDetail.visibility = View.INVISIBLE
-                binding.tvDetailDetail.visibility = View.INVISIBLE
-                binding.ibEditDetail.visibility = View.INVISIBLE
-                binding.etEditProduct.visibility = View.VISIBLE
-                binding.etEditDetail.visibility = View.VISIBLE
-                binding.ibSaveDetail.visibility = View.VISIBLE
-
-                binding.etEditProduct.setText(pay.product)
-                binding.etEditDetail.setText(pay.detail)
-            }
-
-            binding.ibSaveDetail.setOnClickListener {
-                val newName = binding.etEditProduct.text.toString().trim()
-                val newDetail = binding.etEditDetail.text.toString().trim()
-
-                if (newName.isNotBlank() && newDetail.isNotBlank()) {
-                    viewModel.savePay(pay.id, newName, newDetail)
-                }
-            }
         }
 
-        observe()
-    }
-
-    private fun observe() {
         viewModel.isSuccess.observe(this) {
             if (it) {
                 binding.tvNameDetail.text = binding.etEditProduct.text

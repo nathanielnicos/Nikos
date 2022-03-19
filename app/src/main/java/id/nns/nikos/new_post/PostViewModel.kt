@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import id.nns.nikos.data.Pay
+import id.nns.nikos.data.Product
 
 class PostViewModel : ViewModel() {
 
@@ -29,7 +29,7 @@ class PostViewModel : ViewModel() {
                         val realtimeRef = Firebase.database.getReference("pay").push()
 
                         realtimeRef.setValue(
-                            Pay(
+                            Product(
                                 id = realtimeRef.key.toString(),
                                 imgUrl = imgUrl.toString(),
                                 favorite = false,

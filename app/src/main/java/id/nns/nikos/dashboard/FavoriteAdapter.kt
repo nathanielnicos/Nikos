@@ -1,46 +1,53 @@
 package id.nns.nikos.dashboard
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.nns.nikos.R
+import id.nns.nikos.data.Product
 import id.nns.nikos.databinding.ItemFavoriteBinding
+import id.nns.nikos.detail.DetailActivity
 
-class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.ViewPagerViewHolder>() {
+class FavoriteAdapter(private val products: ArrayList<Product>) :
+    RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     private lateinit var binding: ItemFavoriteBinding
-    private var images = mutableListOf<String>()
 
-    fun setImages(images: ArrayList<String>) {
-        this.images = images.toMutableList()
-    }
-
-    inner class ViewPagerViewHolder(private val vhBinding: ItemFavoriteBinding) :
+    inner class FavoriteViewHolder(private val vhBinding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(vhBinding.root) {
 
-        fun bind(image: String) {
+        fun bind(product: Product) {
+            Log.d("Rasengan", "bind")
             Glide.with(itemView.context)
-                .load(image)
+                .load(product.imgUrl)
                 .placeholder(R.drawable.loading_animation)
                 .into(vhBinding.ivDashboard)
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.KEY_DETAIL, product.id)
+                itemView.context.startActivity(intent)
+            }
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FavoriteAdapter.ViewPagerViewHolder {
+    ): FavoriteAdapter.FavoriteViewHolder {
         binding = ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewPagerViewHolder(binding)
+        return FavoriteViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: FavoriteAdapter.ViewPagerViewHolder, position: Int) {
-        holder.bind(images[position])
+    override fun onBindViewHolder(holder: FavoriteAdapter.FavoriteViewHolder, position: Int) {
+        holder.bind(products[position])
     }
 
     override fun getItemCount(): Int {
-        return images.size
+        return products.size
     }
 
 }

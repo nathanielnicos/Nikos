@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.nns.nikos.R
-import id.nns.nikos.data.Pay
+import id.nns.nikos.data.Product
 import id.nns.nikos.databinding.ItemRecentBinding
 import id.nns.nikos.detail.DetailActivity
 import id.nns.nikos.utils.FavoriteState.favoriteState
@@ -18,15 +18,15 @@ class RecentAdapter(
     private val action: (id: String, isFavorite: Boolean) -> Unit
 ) : RecyclerView.Adapter<RecentAdapter.RecentViewHolder>() {
 
-    private var oldPayList = ArrayList<Pay>()
+    private var oldPayList = ArrayList<Product>()
     private lateinit var binding: ItemRecentBinding
 
-    fun setData(newPayList: ArrayList<Pay>) {
-        val payDiffCallback = PayDiffCallback(oldPayList, newPayList)
+    fun setData(newProductList: ArrayList<Product>) {
+        val payDiffCallback = PayDiffCallback(oldPayList, newProductList)
         val diffResult = DiffUtil.calculateDiff(payDiffCallback)
 
         oldPayList.clear()
-        oldPayList.addAll(newPayList)
+        oldPayList.addAll(newProductList)
 
         diffResult.dispatchUpdatesTo(this)
     }
@@ -34,25 +34,25 @@ class RecentAdapter(
     inner class RecentViewHolder(private val vhBinding: ItemRecentBinding) :
         RecyclerView.ViewHolder(vhBinding.root) {
 
-        fun bind(pay: Pay) {
+        fun bind(product: Product) {
             Glide.with(itemView.context)
-                .load(pay.imgUrl)
+                .load(product.imgUrl)
                 .placeholder(R.drawable.loading_animation)
                 .into(vhBinding.ivProduct)
 
-            binding.tvProductName.text = pay.product
-            binding.tvPrice.text = getPrice(pay.price)
+            binding.tvProductName.text = product.product
+            binding.tvPrice.text = getPrice(product.price)
             binding.ibFavorite.setBackgroundResource(
-                favoriteState(pay.favorite)
+                favoriteState(product.favorite)
             )
 
             binding.ibFavorite.setOnClickListener {
-                action(pay.id, !pay.favorite)
+                action(product.id, !product.favorite)
             }
 
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.KEY_DETAIL, pay)
+                intent.putExtra(DetailActivity.KEY_DETAIL, product.id)
                 itemView.context.startActivity(intent)
             }
         }

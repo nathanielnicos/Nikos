@@ -1,11 +1,11 @@
 package id.nns.nikos.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import id.nns.nikos.data.Pay
+import id.nns.nikos.data.Product
 
 class PayDiffCallback(
-    private val oldList: ArrayList<Pay>,
-    private val newList: ArrayList<Pay>
+    private val oldList: ArrayList<Product>,
+    private val newList: ArrayList<Product>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
