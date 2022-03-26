@@ -21,4 +21,6 @@
     <string name="longitude">Longitude:</string>
     <string name="location">Location:</string>
     <string name="update">UPDATE</string>
+    <string name="request_permission">Request Permission</string>
+    <string name="permission_granted">Permission granted!</string>
 </resources>

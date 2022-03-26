@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/latitude"
+        android:visibility="gone"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="0.0"
+        android:visibility="gone"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@id/tv_label_latitude"
         app:layout_constraintTop_toTopOf="@id/tv_label_latitude"
@@ -31,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/longitude"
+        android:visibility="gone"
         android:layout_marginTop="12dp"
         android:layout_marginStart="20dp"
         app:layout_constraintTop_toBottomOf="@id/tv_label_latitude"
@@ -41,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="0.0"
+        android:visibility="gone"
         android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="@id/tv_label_longitude"
         app:layout_constraintBottom_toBottomOf="@id/tv_label_longitude"
@@ -51,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/location"
+        android:visibility="gone"
         android:layout_marginTop="12dp"
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +66,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="Jombang"
+        android:visibility="gone"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,9 +78,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/update"
+        android:visibility="gone"
         android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_location" />
+
+    <Button
+        android:id="@+id/btn_request_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/request_permission"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_permission_granted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/permission_granted"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
