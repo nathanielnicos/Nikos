@@ -1,7 +1,6 @@
 package id.nns.nikos.dashboard
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +19,6 @@ class FavoriteAdapter(private val products: ArrayList<Product>) :
         RecyclerView.ViewHolder(vhBinding.root) {
 
         fun bind(product: Product) {
-            Log.d("Rasengan", "bind")
             Glide.with(itemView.context)
                 .load(product.imgUrl)
                 .placeholder(R.drawable.loading_animation)
