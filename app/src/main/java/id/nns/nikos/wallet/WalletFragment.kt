@@ -36,9 +36,18 @@ class WalletFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setViewModel()
+        setAdapter()
+        onDoSomething()
+        observe()
+    }
+
+    private fun setViewModel() {
         viewModel = ViewModelProvider(this)[WalletViewModel::class.java]
         viewModel.getWallets()
+    }
 
+    private fun setAdapter() {
         val settingPref = context?.let { SettingPreference(it) }
         val keyWallet = settingPref?.getWalletEditAndDeleteFeatures() ?: "long_press"
 
@@ -67,14 +76,14 @@ class WalletFragment : Fragment() {
 
         binding.rvWallet.adapter = adapter
         binding.rvWallet.layoutManager = LinearLayoutManager(requireContext())
+    }
 
+    private fun onDoSomething() {
         binding.ibAddWallet.setOnClickListener {
             Intent(requireContext(), NewWalletActivity::class.java).also {
                 startActivity(it)
             }
         }
-
-        observe()
     }
 
     private fun observe() {

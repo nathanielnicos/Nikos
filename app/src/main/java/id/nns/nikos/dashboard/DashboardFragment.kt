@@ -13,6 +13,7 @@ import id.nns.nikos.databinding.FragmentDashboardBinding
 import id.nns.nikos.new_post.PostActivity
 import id.nns.nikos.profile.ProfileActivity
 import id.nns.nikos.utils.SettingPreference
+import id.nns.nikos.utils.WrapContentLinearLayoutManager
 
 class DashboardFragment : Fragment() {
 
@@ -37,8 +38,9 @@ class DashboardFragment : Fragment() {
         settingsPref = SettingPreference(requireContext())
 
         setViewModel()
+        setFavoriteAdapter()
         setRecentAdapter()
-        onClickView()
+        onDoSomething()
         observe()
     }
 
@@ -52,15 +54,29 @@ class DashboardFragment : Fragment() {
         )
     }
 
+    private fun setFavoriteAdapter() {
+        favoriteAdapter = FavoriteAdapter()
+
+        binding.rvFavorite.layoutManager =
+            WrapContentLinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFavorite.adapter = favoriteAdapter
+    }
+
     private fun setRecentAdapter() {
         recentAdapter = RecentAdapter { id, isFavorite ->
             viewModel.updateFavoriteState(id, isFavorite)
         }
-        binding.rvRecent.layoutManager = LinearLayoutManager(activity)
+
+        binding.rvRecent.layoutManager =
+            WrapContentLinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvRecent.adapter = recentAdapter
     }
 
-    private fun onClickView() {
+    private fun onDoSomething() {
+        binding.srlDashboard.setOnRefreshListener {
+            activity?.recreate()
+        }
+
         binding.circleImageView.setOnClickListener {
             Intent(activity, ProfileActivity::class.java).also {
                 startActivity(it)
@@ -92,11 +108,7 @@ class DashboardFragment : Fragment() {
 
     private fun observe() {
         viewModel.favoriteProduct.observe(viewLifecycleOwner) { products ->
-            favoriteAdapter = FavoriteAdapter(products)
-
-            binding.rvFavorite.layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            binding.rvFavorite.adapter = favoriteAdapter
+            favoriteAdapter.setData(products)
         }
 
         viewModel.recentProduct.observe(viewLifecycleOwner) { products ->

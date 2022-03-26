@@ -3,17 +3,29 @@ package id.nns.nikos.dashboard
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.nns.nikos.R
 import id.nns.nikos.data.Product
 import id.nns.nikos.databinding.ItemFavoriteBinding
 import id.nns.nikos.detail.DetailActivity
+import id.nns.nikos.utils.PayDiffCallback
 
-class FavoriteAdapter(private val products: ArrayList<Product>) :
-    RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
+    private var oldPayList = ArrayList<Product>()
     private lateinit var binding: ItemFavoriteBinding
+
+    fun setData(newProductList: ArrayList<Product>) {
+        val payDiffCallback = PayDiffCallback(oldPayList, newProductList)
+        val diffResult = DiffUtil.calculateDiff(payDiffCallback)
+
+        oldPayList.clear()
+        oldPayList.addAll(newProductList)
+
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     inner class FavoriteViewHolder(private val vhBinding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(vhBinding.root) {
@@ -41,11 +53,11 @@ class FavoriteAdapter(private val products: ArrayList<Product>) :
     }
 
     override fun onBindViewHolder(holder: FavoriteAdapter.FavoriteViewHolder, position: Int) {
-        holder.bind(products[position])
+        holder.bind(oldPayList[position])
     }
 
     override fun getItemCount(): Int {
-        return products.size
+        return oldPayList.size
     }
 
 }
