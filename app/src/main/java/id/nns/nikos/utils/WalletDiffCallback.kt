@@ -22,7 +22,8 @@ class WalletDiffCallback(
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].amount == newList[newItemPosition].amount &&
-                oldList[oldItemPosition].logoUrl == newList[newItemPosition].logoUrl
+                oldList[oldItemPosition].logoUrl == newList[newItemPosition].logoUrl &&
+                oldList[oldItemPosition].timestamp == newList[newItemPosition].timestamp
     }
 
 }

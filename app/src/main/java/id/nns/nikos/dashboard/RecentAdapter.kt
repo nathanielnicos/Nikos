@@ -41,13 +41,13 @@ class RecentAdapter(
                 .into(vhBinding.ivProduct)
 
             binding.tvProductName.text = product.product
-            binding.tvPrice.text = getPrice(product.price)
+            binding.tvPrice.text = getPrice(product.price ?: 0)
             binding.ibFavorite.setBackgroundResource(
-                favoriteState(product.favorite)
+                favoriteState(product.favorite ?: false)
             )
 
             binding.ibFavorite.setOnClickListener {
-                action(product.id, !product.favorite)
+                action(product.id.toString(), product.favorite?.not() ?: false)
             }
 
             itemView.setOnClickListener {

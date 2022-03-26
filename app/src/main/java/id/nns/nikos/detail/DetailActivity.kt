@@ -67,9 +67,9 @@ class DetailActivity : AppCompatActivity() {
 
             binding.tvNameDetail.text = pay.product
             binding.tvDetailDetail.text = pay.detail
-            binding.tvDateDetail.text = convertDate(pay.timestamp)
-            binding.tvTimeDetail.text = convertTime(pay.timestamp)
-            binding.tvPriceDetail.text = getPrice(pay.price)
+            binding.tvDateDetail.text = pay.timestamp?.let { convertDate(it) }
+            binding.tvTimeDetail.text = pay.timestamp?.let { convertTime(it) }
+            binding.tvPriceDetail.text = getPrice(pay.price ?: 0)
         }
 
         viewModel.isSuccess.observe(this) {

@@ -42,7 +42,7 @@ class WalletViewModel : ViewModel() {
                 for (item in snapshot.children) {
                     val value = item.getValue(Wallet::class.java)
                     if (value != null) {
-                        total += value.amount
+                        total += value.amount ?: 0
                         arrayList.add(value)
                     }
                 }
@@ -59,7 +59,14 @@ class WalletViewModel : ViewModel() {
     fun editWallet(id: String, newAmount: Long) {
         dbRef.child("$id/amount").setValue(newAmount)
             .addOnSuccessListener {
-                _isEdited.value = true
+                dbRef.child("$id/timestamp").setValue(System.currentTimeMillis() / 1000)
+                    .addOnSuccessListener {
+                        _isEdited.value = true
+                    }
+                    .addOnFailureListener {
+                        _isEdited.value = false
+                        _error.value = it.message
+                    }
             }
             .addOnFailureListener {
                 _isEdited.value = false

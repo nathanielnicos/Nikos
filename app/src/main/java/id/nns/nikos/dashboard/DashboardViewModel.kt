@@ -33,7 +33,7 @@ class DashboardViewModel : ViewModel() {
 
                 snapshot.children.reversed().forEach { data ->
                     val value = data.getValue(Product::class.java)
-                    if (value != null && value.favorite && arrayList.size < count) {
+                    if (value != null && value.favorite == true && arrayList.size < count) {
                         arrayList.add(value)
                     }
                 }

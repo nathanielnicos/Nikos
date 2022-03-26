@@ -52,7 +52,8 @@ class NewWalletViewModel : ViewModel() {
             Wallet(
                 id = ref.key.toString(),
                 logoUrl = logoUrl,
-                amount = amount.toLong()
+                amount = amount.toLong(),
+                timestamp = System.currentTimeMillis() / 1000
             )
         ).addOnSuccessListener {
             _isSuccess.value = true

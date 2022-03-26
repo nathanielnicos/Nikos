@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.nns.nikos.data.Wallet
 import id.nns.nikos.databinding.ItemWalletBinding
+import id.nns.nikos.utils.FormattedDateTime.convertDate
 import id.nns.nikos.utils.FormattedPrice.getPrice
 import id.nns.nikos.utils.WalletDiffCallback
 
@@ -38,9 +39,10 @@ class WalletAdapter(
                 .load(wallet.logoUrl)
                 .into(vhBinding.ivType)
 
-            binding.tvAmount.text = getPrice(wallet.amount)
+            binding.tvAmount.text = getPrice(wallet.amount ?: 0)
+            binding.tvTimestamp.text = wallet.timestamp?.let { convertDate(it) }
 
-            when(keyWallet) {
+            when (keyWallet) {
                 "long_press" -> {
                     onLongPress(wallet)
                 }
@@ -57,7 +59,7 @@ class WalletAdapter(
         private fun onLongPress(wallet: Wallet) {
             binding.clItemWallet.setOnCreateContextMenuListener(this)
             binding.clItemWallet.setOnLongClickListener {
-                getData(wallet.id, wallet.amount)
+                wallet.amount?.let { amount -> getData(wallet.id.toString(), amount) }
                 false
             }
         }
@@ -67,11 +69,11 @@ class WalletAdapter(
             binding.ibDelete.visibility = View.VISIBLE
 
             binding.ibEdit.setOnClickListener {
-                editWallet(wallet.id, wallet.amount)
+                wallet.amount?.let { amount -> editWallet(wallet.id.toString(), amount) }
             }
 
             binding.ibDelete.setOnClickListener {
-                deleteWallet(wallet.id)
+                deleteWallet(wallet.id.toString())
             }
         }
 
