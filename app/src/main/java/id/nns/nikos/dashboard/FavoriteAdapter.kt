@@ -14,15 +14,15 @@ import id.nns.nikos.utils.PayDiffCallback
 
 class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
-    private var oldPayList = ArrayList<Product>()
+    private var oldProductList = ArrayList<Product>()
     private lateinit var binding: ItemFavoriteBinding
 
     fun setData(newProductList: ArrayList<Product>) {
-        val payDiffCallback = PayDiffCallback(oldPayList, newProductList)
+        val payDiffCallback = PayDiffCallback(oldProductList, newProductList)
         val diffResult = DiffUtil.calculateDiff(payDiffCallback)
 
-        oldPayList.clear()
-        oldPayList.addAll(newProductList)
+        oldProductList.clear()
+        oldProductList.addAll(newProductList)
 
         diffResult.dispatchUpdatesTo(this)
     }
@@ -53,11 +53,11 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>
     }
 
     override fun onBindViewHolder(holder: FavoriteAdapter.FavoriteViewHolder, position: Int) {
-        holder.bind(oldPayList[position])
+        holder.bind(oldProductList[position])
     }
 
     override fun getItemCount(): Int {
-        return oldPayList.size
+        return oldProductList.size
     }
 
 }

@@ -18,15 +18,15 @@ class RecentAdapter(
     private val action: (id: String, isFavorite: Boolean) -> Unit
 ) : RecyclerView.Adapter<RecentAdapter.RecentViewHolder>() {
 
-    private var oldPayList = ArrayList<Product>()
+    private var oldProductList = ArrayList<Product>()
     private lateinit var binding: ItemRecentBinding
 
     fun setData(newProductList: ArrayList<Product>) {
-        val payDiffCallback = PayDiffCallback(oldPayList, newProductList)
+        val payDiffCallback = PayDiffCallback(oldProductList, newProductList)
         val diffResult = DiffUtil.calculateDiff(payDiffCallback)
 
-        oldPayList.clear()
-        oldPayList.addAll(newProductList)
+        oldProductList.clear()
+        oldProductList.addAll(newProductList)
 
         diffResult.dispatchUpdatesTo(this)
     }
@@ -67,11 +67,11 @@ class RecentAdapter(
     }
 
     override fun onBindViewHolder(holder: RecentAdapter.RecentViewHolder, position: Int) {
-        holder.bind(oldPayList[position])
+        holder.bind(oldProductList[position])
     }
 
     override fun getItemCount(): Int {
-        return oldPayList.size
+        return oldProductList.size
     }
 
 }
