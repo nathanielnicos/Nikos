@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".map.MapFragment">
 
     <TextView
         android:id="@+id/tv_label_latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/latitude"
-        android:visibility="gone"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/latitude"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="0.0"
-        android:visibility="gone"
         android:layout_marginStart="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tv_label_latitude"
         app:layout_constraintStart_toEndOf="@id/tv_label_latitude"
         app:layout_constraintTop_toTopOf="@id/tv_label_latitude"
-        app:layout_constraintBottom_toBottomOf="@id/tv_label_latitude" />
+        tools:text="0.0" />
 
     <TextView
         android:id="@+id/tv_label_longitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
         android:text="@string/longitude"
         android:visibility="gone"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_latitude"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_latitude" />
 
     <TextView
         android:id="@+id/tv_longitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="0.0"
-        android:visibility="gone"
         android:layout_marginStart="8dp"
-        app:layout_constraintTop_toTopOf="@id/tv_label_longitude"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/tv_label_longitude"
-        app:layout_constraintStart_toEndOf="@id/tv_label_longitude" />
+        app:layout_constraintStart_toEndOf="@id/tv_label_longitude"
+        app:layout_constraintTop_toTopOf="@id/tv_label_longitude"
+        tools:text="0.0" />
 
     <TextView
         android:id="@+id/tv_label_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
         android:text="@string/location"
         android:visibility="gone"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_label_longitude" />
 
@@ -65,45 +65,81 @@
         android:id="@+id/tv_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Jombang"
-        android:visibility="gone"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="20dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_label_location"
-        app:layout_constraintTop_toTopOf="@id/tv_label_location" />
+        app:layout_constraintTop_toTopOf="@id/tv_label_location"
+        tools:text="Jombang" />
 
     <Button
         android:id="@+id/btn_update_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:text="@string/update"
         android:visibility="gone"
-        android:layout_margin="20dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
-    <Button
-        android:id="@+id/btn_request_permission"
+    <TextView
+        android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/request_permission"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/status"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_message"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/btn_click"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/tv_permission_granted"
+        android:id="@+id/tv_status_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/permission_granted"
-        android:visibility="gone"
+        android:layout_marginStart="4dp"
+        android:text="@string/no_value"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_status"
+        app:layout_constraintStart_toEndOf="@id/tv_status"
+        app:layout_constraintTop_toTopOf="@id/tv_status" />
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/message"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_click"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_status" />
+
+    <TextView
+        android:id="@+id/tv_message_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/no_value"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_message"
+        app:layout_constraintStart_toEndOf="@id/tv_message"
+        app:layout_constraintTop_toTopOf="@id/tv_message" />
+
+    <ImageButton
+        android:id="@+id/btn_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_click"
+        app:tint="@color/white"
+        app:backgroundTint="@color/nikos"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:contentDescription="@string/request_location_permission" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

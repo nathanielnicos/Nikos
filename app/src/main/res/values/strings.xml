@@ -21,6 +21,13 @@
     <string name="longitude">Longitude:</string>
     <string name="location">Location:</string>
     <string name="update">UPDATE</string>
-    <string name="request_permission">Request Permission</string>
-    <string name="permission_granted">Permission granted!</string>
+    <string name="status">Status:</string>
+    <string name="no_value">-</string>
+    <string name="message">Message:</string>
+    <string name="fine_location_permission_granted">Precise location access is allowed.</string>
+    <string name="coarse_location_permission_granted">Approximate location access is allowed.</string>
+    <string name="request_fine_location_permission_now">Change to precise location now!</string>
+    <string name="click">Click</string>
+    <string name="click_the_button">Click the button!</string>
+    <string name="request_location_permission">Request location permission!</string>
 </resources>
