@@ -1,13 +1,17 @@
 package id.nns.nikos.map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.vmadalin.easypermissions.EasyPermissions
 import id.nns.nikos.R
 import id.nns.nikos.databinding.FragmentMapBinding
@@ -21,6 +25,8 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private var _binding: FragmentMapBinding? = null
     private val binding: FragmentMapBinding get() = _binding as FragmentMapBinding
 
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,10 +35,37 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         return binding.root
     }
 
+    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setViewVisibility()
+
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
+
+        binding.btnUpdateLocation.setOnClickListener {
+            if (EasyPermissions.hasPermissions(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+                    val geocoder = Geocoder(requireContext())
+                    val currentLocation = geocoder.getFromLocation(
+                        location.latitude,
+                        location.longitude,
+                        1
+                    )
+
+                    binding.tvLatitude.text = location.latitude.toString()
+                    binding.tvLongitude.text = location.longitude.toString()
+                    binding.tvLocation.text = currentLocation.first().getAddressLine(0)
+                }
+            } else {
+                requestLocationPermission()
+            }
+        }
 
         binding.btnClick.setOnClickListener {
             requestLocationPermission()
