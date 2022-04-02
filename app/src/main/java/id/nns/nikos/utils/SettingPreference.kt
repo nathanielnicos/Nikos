@@ -14,6 +14,10 @@ class SettingPreference(private val context: Context) {
         return pref.getBoolean(context.getString(R.string.map), false)
     }
 
+    fun getShareLocState() : Boolean {
+        return pref.getBoolean("Location", false)
+    }
+
     fun getWalletEditAndDeleteFeatures() : String {
         return pref.getString(context.getString(R.string.wallet), "long_press") ?: "long_press"
     }

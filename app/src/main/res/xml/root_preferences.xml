@@ -19,7 +19,7 @@
 
         <SwitchPreferenceCompat
             app:dependency="@string/map"
-            app:key="location"
+            app:key="Location"
             app:summaryOff="Off"
             app:summaryOn="On"
             app:title="Share Location" />

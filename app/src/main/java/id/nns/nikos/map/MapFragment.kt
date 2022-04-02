@@ -1,11 +1,7 @@
 package id.nns.nikos.map
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.location.Geocoder
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -15,27 +11,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.tasks.CancellationTokenSource
+import androidx.lifecycle.ViewModelProvider
 import com.vmadalin.easypermissions.EasyPermissions
 import id.nns.nikos.R
 import id.nns.nikos.databinding.FragmentMapBinding
 import id.nns.nikos.utils.ProgressDialog
 import java.util.*
 
-@SuppressLint("MissingPermission")
 class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     companion object {
-        private const val PERMISSION_LOCATION_REQUEST_CODE = 280222
+        const val PERMISSION_LOCATION_REQUEST_CODE = 280222
     }
 
     private var _binding: FragmentMapBinding? = null
     private val binding: FragmentMapBinding get() = _binding as FragmentMapBinding
 
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var viewModel: MapViewModel
     private lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(
@@ -49,14 +41,17 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this)[MapViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
-        setViewVisibility()
 
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireContext())
+        viewModel.setViewVisibility(requireContext())
 
         binding.btnUpdateLocation.setOnClickListener {
-            doSomethingBasedOnExistingPermission()
+            changeUpdateButtonState(isEnabled = false)
+            progressDialog.showLoading()
+            showToast("Getting your location...\nPlease wait!")
+
+            viewModel.doSomethingBasedOnExistingPermission(requireContext())
         }
 
         binding.btnGotoGmaps.setOnClickListener {
@@ -64,80 +59,10 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         binding.btnClick.setOnClickListener {
-            requestLocationPermission()
+            viewModel.requestLocationPermission(this)
         }
-    }
 
-    private fun setViewVisibility() {
-        when {
-            EasyPermissions.hasPermissions(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) -> {
-                binding.tvStatusValue.text = getString(R.string.fine_location_permission_granted)
-                binding.tvMessageValue.text = getString(R.string.make_sure_gps_enabled)
-
-                binding.btnClick.isEnabled = false
-                binding.btnClick.isClickable = false
-                binding.btnClick.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_grey
-                    )
-                )
-            }
-            EasyPermissions.hasPermissions(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) -> {
-                binding.tvStatusValue.text = getString(R.string.coarse_location_permission_granted)
-                binding.tvMessageValue.text =
-                    getString(R.string.request_fine_location_permission_now)
-            }
-            else -> {
-                binding.tvStatusValue.text = getString(R.string.no_value)
-                binding.tvMessageValue.text = getString(R.string.click_the_button)
-            }
-        }
-    }
-
-    private fun doSomethingBasedOnExistingPermission() {
-        changeUpdateButtonState(isEnabled = false)
-        progressDialog.showLoading()
-        showToast("Getting your location...\nPlease wait!")
-
-        if (EasyPermissions.hasPermissions(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        ) {
-            fusedLocationProviderClient.getCurrentLocation(
-                LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY,
-                CancellationTokenSource().token
-            ).addOnSuccessListener { location ->
-                changeUpdateButtonState(isEnabled = true)
-                progressDialog.dismissLoading()
-
-                if (location != null) {
-                    showToast("Updated!")
-                    setLocation(location)
-                } else {
-                    showToast("Turn on your GPS!")
-                    openGpsSettings()
-                }
-            }.addOnFailureListener {
-                changeUpdateButtonState(isEnabled = true)
-                progressDialog.dismissLoading()
-
-                showToast(it.message.toString())
-            }
-        } else {
-            changeUpdateButtonState(isEnabled = true)
-            progressDialog.dismissLoading()
-
-            showToast("No permissions!")
-            requestLocationPermission()
-        }
+        observe()
     }
 
     private fun changeUpdateButtonState(isEnabled: Boolean) {
@@ -152,17 +77,56 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun setLocation(location: Location) {
-        val geocoder = Geocoder(requireContext())
-        val currentLocation = geocoder.getFromLocation(
-            location.latitude,
-            location.longitude,
-            1
-        )
+    private fun observe() {
+        viewModel.isDismissLoading.observe(viewLifecycleOwner) { isDismissLoading ->
+            if (isDismissLoading) {
+                changeUpdateButtonState(isEnabled = true)
+                progressDialog.dismissLoading()
+            }
+        }
 
-        binding.tvLatitude.text = location.latitude.toString()
-        binding.tvLongitude.text = location.longitude.toString()
-        binding.tvLocation.text = currentLocation.first().getAddressLine(0)
+        viewModel.toastMessage.observe(viewLifecycleOwner) { toastMessage ->
+            showToast(toastMessage)
+        }
+
+        viewModel.isNeedLocationPermission.observe(viewLifecycleOwner) { isNeedLocationPermission ->
+            if (isNeedLocationPermission) {
+                viewModel.requestLocationPermission(this)
+            }
+        }
+
+        viewModel.isGpsDisabled.observe(viewLifecycleOwner) { isGpsDisabled ->
+            if (isGpsDisabled) {
+                openGpsSettings()
+            }
+        }
+
+        viewModel.isButtonClickDisabled.observe(viewLifecycleOwner) { isButtonClickDisabled ->
+            if (isButtonClickDisabled) {
+                binding.btnClick.isEnabled = false
+                binding.btnClick.isClickable = false
+                binding.btnClick.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.light_grey
+                    )
+                )
+            }
+        }
+
+        viewModel.status.observe(viewLifecycleOwner) { status ->
+            binding.tvStatusValue.text = status
+        }
+
+        viewModel.message.observe(viewLifecycleOwner) { message ->
+            binding.tvMessageValue.text = message
+        }
+
+        viewModel.location.observe(viewLifecycleOwner) { location ->
+            binding.tvLatitude.text = location.lat.toString()
+            binding.tvLongitude.text = location.long.toString()
+            binding.tvLocation.text = location.address
+        }
     }
 
     private fun openGpsSettings() {
@@ -194,16 +158,6 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
-    private fun requestLocationPermission() {
-        EasyPermissions.requestPermissions(
-            this,
-            "This page needs location permission.",
-            PERMISSION_LOCATION_REQUEST_CODE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
-    }
-
     @Suppress("DEPRECATION")
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -221,11 +175,11 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        requestLocationPermission()
+        viewModel.requestLocationPermission(this)
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        setViewVisibility()
+        viewModel.setViewVisibility(requireContext())
     }
 
     override fun onDestroyView() {

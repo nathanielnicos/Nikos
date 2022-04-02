@@ -30,7 +30,7 @@ class PostViewModel : ViewModel() {
 
                         realtimeRef.setValue(
                             Product(
-                                id = realtimeRef.key.toString(),
+                                id = realtimeRef.key,
                                 imgUrl = imgUrl.toString(),
                                 favorite = false,
                                 product = product,
