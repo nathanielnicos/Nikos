@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/AndroidStudioProjects/Nikos/app/src/main/res/drawable/btn_filled.xml" value="0.197" />
+        <entry key="..\:/Android/AndroidStudioProjects/Nikos/app/src/main/res/drawable/btn_filled_disabled.xml" value="0.197" />
         <entry key="..\:/Android/AndroidStudioProjects/Nikos/app/src/main/res/drawable/button_border.xml" value="0.18" />
         <entry key="..\:/Android/AndroidStudioProjects/Nikos/app/src/main/res/drawable/ic_logout.xml" value="0.1945" />
         <entry key="..\:/Android/AndroidStudioProjects/Nikos/app/src/main/res/layout/activity_add_wallet.xml" value="0.33" />

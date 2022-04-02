@@ -31,4 +31,5 @@
     <string name="click_the_button">Click the button!</string>
     <string name="request_location_permission">Request location permission!</string>
     <string name="go_to_maps">Go to Maps</string>
+    <string name="make_sure_gps_enabled">Make sure your GPS enabled.</string>
 </resources>
